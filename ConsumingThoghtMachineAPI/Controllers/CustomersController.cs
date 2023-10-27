@@ -131,7 +131,7 @@ namespace ConsumingThoghtMachineAPI.Controllers
                 request.Content = content;
                 var response = await client.SendAsync(request);
                 response.EnsureSuccessStatusCode();
-               createSCV(content.ToString());
+               createSCV(await response.Content.ReadAsStringAsync());
                 return Ok(await response.Content.ReadAsStringAsync());
             }
             catch (Exception ex)
@@ -143,20 +143,20 @@ namespace ConsumingThoghtMachineAPI.Controllers
         private void createSCV(string content)
         {
             long n = long.Parse(DateTime.Now.ToString("yyyyMMddHHmmss"));
-            // crear un objeto de Workbook en blanco
+            // create a  Workbook object empty
             var workbook = new Workbook();
 
-            // acceder a la hoja de cálculo vacía predeterminada
+            // accede to the default empty sheet
             var worksheet = workbook.Worksheets[0];
 
-            // establecer JsonLayoutOptions para formatear
+            // establish JsonLayoutOptions to format
             var layoutOptions = new JsonLayoutOptions();
             layoutOptions.ArrayAsTable = false;
 
-            // importar datos JSON a CSV
+            // import JSON data  to CSV
             JsonUtility.ImportData(content, worksheet.Cells, 0, 0, layoutOptions);
 
-            // guardar archivo CSV
+            // save  CSV file
             workbook.Save("lst" + n + ".csv", SaveFormat.CSV);
         }
 
