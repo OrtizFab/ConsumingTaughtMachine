@@ -1,0 +1,8 @@
+id,status,identifiers,,customer_details,,,,,,,,,,,,,,,,additional_details
+2472908697174474931,CUSTOMER_STATUS_ACTIVE,identifier_type,identifier,title,first_name,middle_name,last_name,dob,gender,nationality,email_address,mobile_phone_number,home_phone_number,business_phone_number,contact_method,country_of_residence,country_of_taxation,accessibility,external_customer_id,
+,,IDENTIFIER_TYPE_EMAIL,pepito_7_peres28558@gmail.com,CUSTOMER_TITLE_MR,hhh,vvv,Zapato,1998-03-27,CUSTOMER_GENDER_MALE,US,pepito_27_peres28558@gmail.com,+573145225466,+573145225466,+573145225466,CUSTOMER_CONTACT_METHOD_EMAIL,US,US,CUSTOMER_ACCESSIBILITY_LARGE_PRINT,,
+,,identifier_type,identifier,,,,,,,,,,,,,,,,,
+,,IDENTIFIER_TYPE_USERNAME,pepitoj0ejaub,,,,,,,,,,,,,,,,,
+,,identifier_type,identifier,,,,,,,,,,,,,,,,,
+,,IDENTIFIER_TYPE_PHONE,+573145222466,,,,,,,,,,,,,,,,,
+Evaluation Only. Created with Aspose.Cells for .NET.Copyright 2003 - 2023 Aspose Pty Ltd.

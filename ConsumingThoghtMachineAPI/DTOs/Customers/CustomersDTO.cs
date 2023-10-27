@@ -7,7 +7,7 @@ namespace ConsumingThoghtMachineAPI.DTOs.Customers
     
     public class CustomersDTO
     {
-        public string id { get; set; }
+        public string? id { get; set; }
         public string status { get; set; }
         public List<Identifiers> identifiers { get; set; }
         public Customer_Details?  customer_details  { get; set; }
