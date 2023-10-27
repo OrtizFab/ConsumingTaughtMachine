@@ -1,4 +1,6 @@
-﻿using Confluent.Kafka;
+﻿using Aspose.Cells.Utility;
+using Aspose.Cells;
+using Confluent.Kafka;
 using ConsumingThoghtMachineAPI.DTOs.Customers;
 using ConsumingThoghtMachineAPI.Models.Customers;
 using ConsumingThoghtMachineAPI.Models.Version;
@@ -32,7 +34,7 @@ namespace ConsumingThoghtMachineAPI.Controllers
         [HttpGet("Customers")]
         public async Task<ActionResult> GetCustomers()
         {
-            
+
             using (HttpClient client = new HttpClient())
             {
                 // header
@@ -47,8 +49,8 @@ namespace ConsumingThoghtMachineAPI.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string content = await response.Content.ReadAsStringAsync();
-                       // List<Clients> lst = new List<Clients>();
-                       Customers_out lst = JsonConvert.DeserializeObject<Customers_out>(content);
+                        // List<Clients> lst = new List<Clients>();
+                        Customers_out lst = JsonConvert.DeserializeObject<Customers_out>(content);
                         //createSCV("files.csv");
                         return Ok(lst);
                     }
@@ -83,17 +85,19 @@ namespace ConsumingThoghtMachineAPI.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string content = await response.Content.ReadAsStringAsync();
-                       CustomersDTO? lst = JsonConvert.DeserializeObject<CustomersDTO>(content);
+                        CustomersDTO? lst = JsonConvert.DeserializeObject<CustomersDTO>(content);
+                        createSCV(content);
+                       
                         //Serialize 
-                        string serializedOrder = JsonConvert.SerializeObject(lst);
+                        //string serializedOrder = JsonConvert.SerializeObject(lst);
 
-                        Console.WriteLine("========");
-                        Console.WriteLine("Info: CustomersController => GET => Recieved a new customer:");
-                        Console.WriteLine(serializedOrder);
-                        Console.WriteLine("=========");
+                        //Console.WriteLine("========");
+                        //Console.WriteLine("Info: CustomersController => GET => Recieved a new customer:");
+                        //Console.WriteLine(serializedOrder);
+                        //Console.WriteLine("=========");
 
-                        var producer = new ProducerWrapper(this._pConfig, "payment");
-                        await producer.writeMessage(serializedOrder);
+                        //var producer = new ProducerWrapper(this._pConfig, "payment");
+                        //await producer.writeMessage(serializedOrder);
                         return Ok(lst);
                     }
                     else
@@ -127,7 +131,7 @@ namespace ConsumingThoghtMachineAPI.Controllers
                 request.Content = content;
                 var response = await client.SendAsync(request);
                 response.EnsureSuccessStatusCode();
-                //_service.WriteCSV<Customer_Creation>(customer);
+               createSCV(content.ToString());
                 return Ok(await response.Content.ReadAsStringAsync());
             }
             catch (Exception ex)
@@ -136,31 +140,25 @@ namespace ConsumingThoghtMachineAPI.Controllers
             }
         }
 
-        private List<Customers_out> createSCV(string fileName)
+        private void createSCV(string content)
         {
-            List<Customers_out> customers = new List<Customers_out>();
-            var path = $"{Directory.GetCurrentDirectory()}{@"\Files"}" + fileName;
-            using (var writer = new StreamWriter(path + "\\files.csv"))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-            {
-                csv.WriteRecord(customers);
-            }
-            path = $"{Directory.GetCurrentDirectory()}{@"\FilesTo"}" + "\\" + fileName;
-            using (var reader = new StreamReader(path))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-            {
-                csv.Read();
-                csv.ReadHeader();
+            long n = long.Parse(DateTime.Now.ToString("yyyyMMddHHmmss"));
+            // crear un objeto de Workbook en blanco
+            var workbook = new Workbook();
 
-                while (csv.Read())
-                {
-                    var customer = csv.GetRecord<Customers_out>();
-                    customers.Add(customer);
+            // acceder a la hoja de cálculo vacía predeterminada
+            var worksheet = workbook.Worksheets[0];
 
-                }
-            }
-            
-            return customers;
-            }
-    }
+            // establecer JsonLayoutOptions para formatear
+            var layoutOptions = new JsonLayoutOptions();
+            layoutOptions.ArrayAsTable = false;
+
+            // importar datos JSON a CSV
+            JsonUtility.ImportData(content, worksheet.Cells, 0, 0, layoutOptions);
+
+            // guardar archivo CSV
+            workbook.Save("lst" + n + ".csv", SaveFormat.CSV);
+        }
+
+     }
 }

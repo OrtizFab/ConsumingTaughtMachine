@@ -32,10 +32,11 @@ namespace ConsumingThoghtMachineAPI.Models.Customers
     }
     public class Customer
     {
-        public string id { get; set; }
+        public string? id { get; set; }
         public string status { get; set; }
         public List<Identifiers> identifiers { get; set; }
         public CustomerDetails customer_details { get; set; }
+
         // public additional_details additional_Details { get; set; }
 
     }
