@@ -1,6 +1,5 @@
 using Confluent.Kafka;
-using ConsumingThoghtMachineAPI.Repositories;
-using ConsumingThoghtMachineAPI.RepositoriesImpl;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +9,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<ICSVService, CSVservice>();
+
 //producer and consuming services
 var producerConfig = new ProducerConfig();
 var consumerConfig = new ConsumerConfig();

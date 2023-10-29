@@ -4,7 +4,6 @@ using Confluent.Kafka;
 using ConsumingThoghtMachineAPI.DTOs.Customers;
 using ConsumingThoghtMachineAPI.Models.Customers;
 using ConsumingThoghtMachineAPI.Models.Version;
-using ConsumingThoghtMachineAPI.Repositories;
 using ConsumingThoghtMachineAPI.Wrapper;
 using CsvHelper;
 using Microsoft.AspNetCore.Mvc;
@@ -23,13 +22,13 @@ namespace ConsumingThoghtMachineAPI.Controllers
         JsonSerializerOptions options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
         private readonly IConfiguration _config;
         private readonly ProducerConfig _pConfig;
-        private readonly ICSVService _service;
+      
 
-        public CustomersController(IConfiguration config, ICSVService service, ProducerConfig pconfig)
+        public CustomersController(IConfiguration config,  ProducerConfig pconfig)
         {
             _config = config;
             _pConfig = pconfig;
-            _service = service;
+           
         }
         [HttpGet("Customers")]
         public async Task<ActionResult> GetCustomers()
