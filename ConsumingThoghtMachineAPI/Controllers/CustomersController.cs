@@ -86,17 +86,17 @@ namespace ConsumingThoghtMachineAPI.Controllers
                         string content = await response.Content.ReadAsStringAsync();
                         CustomersDTO? lst = JsonConvert.DeserializeObject<CustomersDTO>(content);
                         createSCV(content);
-                       
-                        //Serialize 
-                        //string serializedOrder = JsonConvert.SerializeObject(lst);
 
-                        //Console.WriteLine("========");
-                        //Console.WriteLine("Info: CustomersController => GET => Recieved a new customer:");
-                        //Console.WriteLine(serializedOrder);
-                        //Console.WriteLine("=========");
+                        //Serialize
+                        string serializedOrder = JsonConvert.SerializeObject(lst);
 
-                        //var producer = new ProducerWrapper(this._pConfig, "payment");
-                        //await producer.writeMessage(serializedOrder);
+                        Console.WriteLine("========");
+                        Console.WriteLine("Info: CustomersController => GET => Recieved a new customer:");
+                        Console.WriteLine(serializedOrder);
+                        Console.WriteLine("=========");
+
+                        var producer = new ProducerWrapper(this._pConfig, "payment");
+                        await producer.writeMessage(serializedOrder);
                         return Ok(lst);
                     }
                     else
